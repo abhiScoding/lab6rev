@@ -74,9 +74,11 @@ def perception():
     rate = rospy.Rate(1)
     while not rospy.is_shutdown():
         
-        X1, Y1 = first_pt
-        X2, Y2 = second_pt
-        # print("X1, Y1, X2, Y2: ", X1, Y1, X2, Y2)
+        if len(cart_coords) > 0:
+            X1, Y1 = first_pt
+            X2, Y2 = second_pt
+        else:
+            X1, Y1, X2, Y2 = 0, 0, 0, 0
 
         # marker message
         # defining marker obj.
