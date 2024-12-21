@@ -5,6 +5,6 @@
 	<node name="perception" pkg="lab6rev" type="perception.py" output="screen" />
 
 	<node name="visualization" pkg="rviz" type="rviz"
-				args="-d $(find lab6rev)/rviz/rvizconfig.rviz" /> 
+				args="-d $(find lab6rev)/rviz/config_1.rviz" /> 
 
 </launch>

@@ -48,10 +48,11 @@ def get_bestfit_line(points):
 
 def callback(data):
     global laser_ranges, cart_coords
+    laser_data = data
     laser_ranges = data.ranges
     theta_inc = data.angle_increment
 
-    theta = 0
+    theta = data.angle_min
     cart_coords = []
 
     for r in laser_ranges:
@@ -68,7 +69,6 @@ def perception():
     rospy.init_node('perception')
     rospy.Subscriber('/base_scan', LaserScan, callback)
     pub_marker = rospy.Publisher("/marker", Marker, queue_size = 10)
-    # pub_laser = rospy.Publisher("/laser", LaserScan, queue_size = 10)
     rospy.sleep(1)
 
     rate = rospy.Rate(1)
@@ -119,7 +119,6 @@ def perception():
         marker.color.b = 1.0
         marker.color.a = 1.0
 
-        # pub_laser.publish(laser_ranges)
         pub_marker.publish(marker)
 
         rate.sleep()
