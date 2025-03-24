@@ -48,7 +48,6 @@ def get_bestfit_line(points):
 
 def callback(data):
     global laser_ranges, cart_coords
-    laser_data = data
     laser_ranges = data.ranges
     theta_inc = data.angle_increment
 
