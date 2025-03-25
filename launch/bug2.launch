@@ -2,9 +2,10 @@
 	<node name="stage" pkg="stage_ros" type="stageros"
 			args="$(find lab6rev)/world/playground.world" />
 
-	<node name="bug2" pkg="lab6rev" type="bug2.py" output="screen" />
+	<node name="bug" pkg="lab6rev" type="bug2.py" output="screen" >
+    	<param name="goalx" type="double" value="7.22" />
+    	<param name="goaly" type="double" value="7.36" />
+  	</node>
 
-	<param name="goalx" type="double" value="7.22" />
-	<param name="goaly" type="double" value="7.36" />
 
 </launch>

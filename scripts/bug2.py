@@ -30,7 +30,7 @@ def obstacleInWay():
 # check whether robot is on m-line or not
 def onMline():
     dist = abs(((goaly-starty)*x) - ((goalx-startx)*y) + ((goalx*starty) - (goaly*startx))) / math.sqrt(((goaly-starty)**2) + ((goalx-startx)**2))
-    return dist < 0.1
+    return dist < 0.3
 
 def goalSeekVel():
     # rotate towards goal and head towards it
@@ -67,11 +67,11 @@ def bug2():
 
     pub = rospy.Publisher("/cmd_vel", Twist, queue_size=10)
 
-    # goal coordinates
-    # goalx = rospy.get_param('~goalx')
-    # goaly = rospy.get_param('~goaly')
+    
     global goalx, goaly, linearDist, angleDiff, startx, starty
-    goalx, goaly = 7.22, 7.36
+    # goalx, goaly = 7.22, 7.36
+    goalx = rospy.get_param('~goalx')
+    goaly = rospy.get_param('~goaly')
     startx, starty = x, y
 
     atGoal = False
@@ -79,7 +79,6 @@ def bug2():
     wallFollow = False
 
     rate = rospy.Rate(10)
-    # rospy.sleep(1)
     while not atGoal:
 
         # get angular and linear distance from goal
