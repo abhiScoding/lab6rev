@@ -21,47 +21,6 @@ def callback2(data):
     front_ranges = data.ranges[90:270]
 
     return 0
-    global distFromWall
-    max_inliers = 0
-    iterations = 20
-
-    if len(points) > 0:
-        for i in range(iterations):
-            p1 = random.choice(points)
-            p2 = random.choice(points)
-            
-            if p1 != p2:
-                # get line from p1 and p2 : Ax + By + C = 0
-                x1, y1 = p1
-                x2, y2 = p2
-                A = y2 - y1
-                B = x1 - x2
-                C = (x2*y1) - (x1*y2)
-
-                # calculate number of inliers
-                inliers = 0
-                min_dist = 15
-
-                for point in points:
-                    x3, y3 = point
-                    dist = abs((A*x3 + B*y3 + C)/(math.sqrt(A**2 + B**2)))
-                    if dist < min_dist:
-                        inliers += 1
-
-                # update max_inliers
-                if inliers > max_inliers:
-                    max_inliers = inliers
-                    first_pt = p1
-                    second_pt = p2
-
-        # get robot distance from line
-        x1, y1 = first_pt
-        x2, y2 = second_pt
-        A = y2 - y1
-        B = x1 - x2
-        C = (x2*y1) - (x1*y2)
-        distFromWall = abs((A*x + B*y + C)/(math.sqrt(A**2 + B**2)))    
-    return 0
 
 def obstacleInWay():
 
