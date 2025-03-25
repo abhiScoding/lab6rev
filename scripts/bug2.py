@@ -17,27 +17,10 @@ def callback1(msg):
     return 0
 
 def callback2(data):
-
-    global front_ranges, laser_ranges
+    global front_ranges
     front_ranges = data.ranges[90:270]
-    laser_ranges = data.ranges
-    theta_inc = data.angle_increment
-    theta = data.angle_min
-
-    cart_coords = []
-    for r in laser_ranges:
-        if r < 3:
-            x = r*math.cos(theta)
-            y = r*math.sin(theta)
-            cart_coords.append((x, y))
-        theta += theta_inc
-
-    get_bestfit_line(cart_coords)
 
     return 0
-
-# RANSAC: retuns points of best fit line
-def get_bestfit_line(points):
     global distFromWall
     max_inliers = 0
     iterations = 20
@@ -71,14 +54,13 @@ def get_bestfit_line(points):
                     first_pt = p1
                     second_pt = p2
 
-    # get robot distance from line
-    x1, y1 = first_pt
-    x2, y2 = second_pt
-    A = y2 - y1
-    B = x1 - x2
-    C = (x2*y1) - (x1*y2)
-
-    distFromWall = abs((A*x + B*y + C)/(math.sqrt(A**2 + B**2)))    
+        # get robot distance from line
+        x1, y1 = first_pt
+        x2, y2 = second_pt
+        A = y2 - y1
+        B = x1 - x2
+        C = (x2*y1) - (x1*y2)
+        distFromWall = abs((A*x + B*y + C)/(math.sqrt(A**2 + B**2)))    
     return 0
 
 def obstacleInWay():
@@ -100,13 +82,13 @@ def goalSeekVel():
     return linear_vel, angular_vel
 
 
+
 def wallFollowVel():
-    
-    print(distFromWall)
-    # turn parralel to wall
+
+  
     minRange = min(front_ranges)
 
-    if minRange < 0.5:
+    if minRange < 0.5:   # turn right if close to wall
         linear_vel = 0
         angular_vel = -0.5
     else:
@@ -114,7 +96,6 @@ def wallFollowVel():
         angular_vel = 0.3*minRange
 
     return linear_vel, angular_vel
-
 
 
 def bug2():
