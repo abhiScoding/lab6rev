@@ -3,8 +3,8 @@
 			args="$(find lab6rev)/world/playground.world" />
 
 	<node name="bug" pkg="lab6rev" type="bug2.py" output="screen" >
-    	<param name="goalx" type="double" value="7.22" />
-    	<param name="goaly" type="double" value="7.36" />
+    	<param name="goalx" type="double" value="4.28" />
+    	<param name="goaly" type="double" value="8.85" />
   	</node>
 
 

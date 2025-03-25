@@ -30,7 +30,7 @@ def obstacleInWay():
 # check whether robot is on m-line or not
 def onMline():
     dist = abs(((goaly-starty)*x) - ((goalx-startx)*y) + ((goalx*starty) - (goaly*startx))) / math.sqrt(((goaly-starty)**2) + ((goalx-startx)**2))
-    return dist < 0.3
+    return dist < 0.5
 
 def goalSeekVel():
     # rotate towards goal and head towards it
@@ -53,7 +53,7 @@ def wallFollowVel():
         angular_vel = -0.5
     else:
         linear_vel = 2
-        angular_vel = 0.3*minRange
+        angular_vel = 0.5*minRange
 
     return linear_vel, angular_vel
 
