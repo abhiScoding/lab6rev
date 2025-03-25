@@ -17,16 +17,20 @@ def callback1(msg):
     return 0
 
 def callback2(data):
-    global front_ranges
+    global front_ranges, minRange
     front_ranges = data.ranges[90:270]
+    minRange = min(front_ranges)
 
     return 0
 
 def obstacleInWay():
 
-    minRange = min(front_ranges)
-
     return minRange < 0.5
+
+# check whether robot is on m-line or not
+def onMline():
+    dist = abs(((goaly-starty)*x) - ((goalx-startx)*y) + ((goalx*starty) - (goaly*startx))) / math.sqrt(((goaly-starty)**2) + ((goalx-startx)**2))
+    return dist < 0.1
 
 def goalSeekVel():
     # rotate towards goal and head towards it
@@ -44,9 +48,6 @@ def goalSeekVel():
 
 def wallFollowVel():
 
-  
-    minRange = min(front_ranges)
-
     if minRange < 0.5:   # turn right if close to wall
         linear_vel = 0
         angular_vel = -0.5
@@ -62,21 +63,23 @@ def bug2():
     
     rospy.Subscriber("/odom", Odometry, callback1)
     rospy.Subscriber("/base_scan", LaserScan, callback2)
+    rospy.sleep(1)
 
     pub = rospy.Publisher("/cmd_vel", Twist, queue_size=10)
 
     # goal coordinates
     # goalx = rospy.get_param('~goalx')
     # goaly = rospy.get_param('~goaly')
-    global goalx, goaly, linearDist, angleDiff
+    global goalx, goaly, linearDist, angleDiff, startx, starty
     goalx, goaly = 7.22, 7.36
+    startx, starty = x, y
 
     atGoal = False
     goalSeek = True
     wallFollow = False
 
     rate = rospy.Rate(10)
-    rospy.sleep(1)
+    # rospy.sleep(1)
     while not atGoal:
 
         # get angular and linear distance from goal
@@ -98,6 +101,7 @@ def bug2():
             print("at Goal!")
             linear_vel = 0
             angular_vel = 0
+            break
         else:
             if goalSeek:
                 linear_vel, angular_vel = goalSeekVel()
@@ -107,6 +111,9 @@ def bug2():
             
             if wallFollow:
                 linear_vel, angular_vel = wallFollowVel()
+                if onMline() and not obstacleInWay():
+                    wallFollow = False
+                    goalSeek = True
 
         vel.linear.x = linear_vel
         vel.angular.z = angular_vel
