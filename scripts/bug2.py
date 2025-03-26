@@ -50,15 +50,15 @@ def wallFollowVel():
 
     print(minRange)
 
-    if minRange < 0.5:   # turn right if close to wall
+    if minRange < 0.5:   # turn away from wall if close to wall
         linear_vel = 0
         angular_vel = -0.5
-    elif 0.5 <= minRange < 1:
+    elif 0.5 <= minRange < 1: # moves parrallel to wall
         angular_vel = 0
         linear_vel = 2
-    else:
+    else:                     # turn towards wall if goes far from wall
         linear_vel = 2
-        angular_vel = 0.5*minRange
+        angular_vel = 0.3*minRange
 
     return linear_vel, angular_vel
 
