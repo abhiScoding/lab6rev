@@ -48,9 +48,14 @@ def goalSeekVel():
 
 def wallFollowVel():
 
+    print(minRange)
+
     if minRange < 0.5:   # turn right if close to wall
         linear_vel = 0
         angular_vel = -0.5
+    elif 0.5 <= minRange < 1:
+        angular_vel = 0
+        linear_vel = 2
     else:
         linear_vel = 2
         angular_vel = 0.5*minRange
